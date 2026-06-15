@@ -22,6 +22,7 @@ runs/                   per-seed result CSV/JSON (regenerate tables without retr
 model_zoo.py            build_model(name, n_ch, seq_len, pred_len) factory + ALL_MODELS
 data_loader.py          aligned loader, temporal split, train-only standardization
 training.py             shared train/eval loop (AdamW, cosine, early stopping)
+train.py                train a single model (any entry in ALL_MODELS)
 benchmark.py            MAE/RMSE leaderboard + naive floors
 outcome_metrics.py      proper scoring rules (Brier / log-loss / ROC-AUC) + calibration
 delong_test.py          significance: DeLong, permutation, timestamp-block bootstrap
@@ -64,6 +65,11 @@ python -c "from data_loader import create_polymarket_loaders as L; b=L(); \
 print('channels', b['n_channels'], 'poly targets', b['poly_indices'])"
 ```
 
+Train a single model (default: PRISM):
+```bash
+python train.py --model PRISM --epochs 15 --pred-len 1
+```
+
 ## Reproducing the paper
 All learned models use a temporal 70/15/15 split, train-only standardization,
 AdamW + cosine schedule, gradient clipping, 15 epochs with early stopping
@@ -72,6 +78,7 @@ multi-seed runs). PRISM uses lr = 8e-4; other models lr = 1e-3.
 
 | Paper item | Command |
 |------------|---------|
+| Train one model | `python train.py --model PRISM --epochs 15 --pred-len 1` |
 | Full MAE/RMSE leaderboard + naive floors | `python benchmark.py --models "$(python -c 'from model_zoo import ALL_MODELS;print(",".join(ALL_MODELS))')" --epochs 15` |
 | Three-seed subset | `python benchmark.py --models "PRISM,LSTM,TSMixer,Linear,Transformer,RLinear" --seed 2026` (repeat 2024/2025) |
 | Proper scoring rules (Brier/log-loss/AUC) + calibration | `python outcome_metrics.py --seeds 2024,2025,2026 --epochs 15` |

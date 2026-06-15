@@ -1,5 +1,5 @@
 """
-Shared train / eval helpers used by `train.py`, `benchmark.py`, and `tune.py`.
+Shared train / eval helpers used by `train.py` and `benchmark.py`.
 
 All evaluators measure MAE / RMSE on the *Polymarket UP-probability channels
 only* and report the result in original probability space (0-1), after
