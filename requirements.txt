@@ -1,0 +1,8 @@
+torch>=2.0
+numpy>=1.24
+pandas>=2.0
+pyarrow>=10.0
+scikit-learn>=1.3
+einops>=0.6
+# Optional: only required for the Time-Series-Library baseline "TimeXer".
+reformer-pytorch>=1.4
